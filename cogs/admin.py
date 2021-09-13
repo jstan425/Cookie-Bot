@@ -6,13 +6,11 @@ class Admin(commands.Cog):
         self.bot = bot
         
     @commands.bot.slash_command(description="Kick Member out of the Server.")
-    @commands.has_permissions(kick_members = True)
-    async def kick(ctx, member : disnake.Member,*,reason = "No reason provided, contact admin!"):
-        await ctx.send(member.name + "have been kicked for" +reason)
-        await member.kick(reason=reason)
+    async def kick(self, ctx, user : disnake.user,*,reason: str = "No reason provided, contact admin!"):
+        await ctx.send(user.name + "have been kicked for" + reason)
+        await user.kick(reason=reason)
 
     @commands.bot.slash_command(description="Ban Member from the Server.")
-    @commands.has_permissions(ban_members = True)
-    async def ban(ctx, member : disnake.Member,*,reason = "No reason provided, contact admin!"):
-        await ctx.send(member.name + "have been ban for" +reason)
-        await member.ban(reason=reason)              
+    async def ban(self, ctx, user : disnake.user,*,reason: str = "No reason provided, contact admin!"):
+        await ctx.send(user.name + "have been ban for" + reason)
+        await user.ban(reason=reason)              
