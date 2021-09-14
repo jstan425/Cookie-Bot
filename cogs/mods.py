@@ -1,6 +1,7 @@
-import disnake
-import asyncio
+import disnake, asyncio, datetime
+
 from disnake.ext import commands
+from datetime import datetime
 
 
 class Mods(commands.Cog):
@@ -25,7 +26,7 @@ class Mods(commands.Cog):
     #Tempban a user for certain durations and unban when it duration ends    
     @commands.bot.slash_command(description="Temporary ban user for certain duration, and unban after duration ends.")
     async def tempban(self, ctx, user : disnake.user, duration: int,* , reason: None):
-        await ctx.send(user.name + "have been temporary banned for" + reason + "for" + duration + "day.")
+        await ctx.send(user.name + "have been temporary banned for" + reason + "for" + duration  + "day.")
         await disnake.guild.ban(user)
         await asyncio.sleep(duration)
         await disnake.guild.unban(user)
