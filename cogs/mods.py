@@ -1,6 +1,7 @@
 import disnake
 from disnake.ext import commands
 
+
 class Mods(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
