@@ -31,3 +31,4 @@ class Mods(commands.Cog):
         await asyncio.sleep(duration)
         await disnake.guild.unban(user)
         #Find a way to not only send message to the discord, but send DMs to the user as well.
+        #Create a way to keep the time in a file and have the bot check for the time when the server is offline.
