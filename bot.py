@@ -5,12 +5,15 @@ import platform
 from disnake.ext import commands
 from dotenv import load_dotenv
 
-from cogs.mods import Mods
-
 load_dotenv()
 intents = disnake.Intents.all()
 bot = commands.Bot(command_prefix="ck.", intents=intents,
                    test_guilds=[872470314171392001])
+
+# Get the modules of all cogs whose directory structure is cogs/<module_name>/cog.py
+for folder in os.listdir("cogs"):
+    if os.path.exists(os.path.join("cogs", folder, "cog.py")):
+        bot.load_extension(f"cogs.{folder}.cog")
 
 @bot.event
 async def on_ready():
@@ -20,6 +23,5 @@ async def on_ready():
     print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
     print("-------------------")
 
-bot.add_cog(Mods(bot))
 
 bot.run(os.getenv("TOKEN"))

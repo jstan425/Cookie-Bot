@@ -7,11 +7,6 @@ from datetime import datetime
 class Mods(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
-    @commands.bot.slash_command(description="Kick user out of the Server.")
-    async def kick(self, ctx, user : disnake.user,*,reason: None):
-        await ctx.send(user.name + "have been kicked for" + reason)
-        await disnake.guild.kick(reason = reason)
 
     @commands.bot.slash_command(description="Ban user from the Server.")
     async def ban(self, ctx, user : disnake.user,*,reason: None):
@@ -32,3 +27,8 @@ class Mods(commands.Cog):
         await disnake.guild.unban(user)
         #Find a way to not only send message to the discord, but send DMs to the user as well.
         #Create a way to keep the time in a file and have the bot check for the time when the server is offline.
+        
+    @commands.bot.slash_command(description="Kick user out of the Server.")
+    async def kick(self, ctx, user : disnake.user,*,reason: None):
+        await ctx.send(user.name + "have been kicked for" + reason)
+        await disnake.guild.kick(reason = reason)
