@@ -23,6 +23,15 @@ for folder in os.listdir("cogs"):
     if os.path.exists(os.path.join("cogs", folder, "cog.py")):
         bot.load_extension(f"cogs.{folder}.cog")
 
+@commands.bot.slash_command(description="Reload Extensions.")
+async def reload(self, *, cog: str):
+    try:
+        bot.reload_extension(f"cogs.{folder}.cog")
+    except Exception as e:
+        await self.bot.say("Reloaded successfully")
+    else:
+        await self.bot.say("Unable to reloaded.")
+    
 @bot.event
 async def on_ready():
     print(f"We have logged in as {bot.user.name}")
