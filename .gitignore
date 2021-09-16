@@ -129,4 +129,3 @@ dmypy.json
 .pyre/
 
 # Other config non related to project
-.vscode/
