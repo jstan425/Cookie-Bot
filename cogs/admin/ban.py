@@ -4,7 +4,7 @@ from disnake.ext import commands
 from datetime import datetime
 
 
-class Mods(commands.Cog):
+class Ban(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -27,8 +27,3 @@ class Mods(commands.Cog):
         await disnake.guild.unban(user)
         #Find a way to not only send message to the discord, but send DMs to the user as well.
         #Create a way to keep the time in a file and have the bot check for the time when the server is offline.
-        
-    @commands.bot.slash_command(description="Kick user out of the Server.")
-    async def kick(self, ctx, user : disnake.user,*,reason: None):
-        await ctx.send(user.name + "have been kicked for" + reason)
-        await disnake.guild.kick(reason = reason)
