@@ -12,5 +12,5 @@ def embedGenerator(type, title, description):
     elif type == "bad":
         embed = disnake.Embed(title=title, description=description, color=0xFF0000)
 
-    embed.set_author(name="OpenTorn")
+    embed.set_author(name="CookieBot")
     return embed
