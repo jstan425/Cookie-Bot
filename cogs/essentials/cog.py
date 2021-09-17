@@ -1,4 +1,5 @@
 import disnake
+import logging
 
 from disnake.ext import commands
 from inc.core import *
@@ -22,8 +23,12 @@ class Essential(commands.Cog):
         
 def setup(bot: commands.Bot):
     bot.add_cog(Essential(bot))
-    print("Essentials cogs is now loaded")
+    print("Essentials cog is now loaded")
+    logger = logging.getLogger("disnake")
+    logger.info("Added Ban Cog")
 
 def teardown(bot: commands.Bot):
     bot.remove_cog("Essential")
     print("Essentials cog is now unloaded")
+    logger = logging.getLogger("disnake")
+    logger.info("Removed Ban Cog")    
