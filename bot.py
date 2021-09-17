@@ -14,9 +14,11 @@ if os.name != "nt":
 
 load_dotenv()
 intents = disnake.Intents.all()
-bot = commands.Bot(command_prefix="ck.", intents=intents,
-                   test_guilds=[872470314171392001])
-    
+bot = commands.Bot(
+    command_prefix="ck.", intents=intents, test_guilds=[872470314171392001]
+)
+
+
 @bot.event
 async def on_ready():
     print(f"We have logged in as {bot.user.name}")
@@ -25,16 +27,22 @@ async def on_ready():
     print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
     print("----------------------------------")
 
+
 logger = logging.getLogger("disnake")
 logger.setLevel(logging.INFO)
 log_dir = "logs"
+if not os.path.exists("logs"):
+    os.makedirs("logs")
 handler = TimedRotatingFileHandler(
-    os.path.join(log_dir, "opentorn-bot.log"), "midnight", interval=1)
+    os.path.join(log_dir, "cookiebot.log"), "midnight", interval=1
+)
 handler.suffix = "%Y-%m-%d_%H-%M-%S"
-handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s"))
+handler.setFormatter(
+    logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
+)
 logger.addHandler(handler)
 
-print("Cogs Loaded")
+print(f"Cogs Loaded" + "\n")
 for folder in os.listdir("cogs"):
     if os.path.exists(os.path.join("cogs", folder, "cog.py")):
         bot.load_extension(f"cogs.{folder}.cog")
