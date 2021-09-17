@@ -23,12 +23,12 @@ class Essential(commands.Cog):
         
 def setup(bot: commands.Bot):
     bot.add_cog(Essential(bot))
-    print("Essentials cog is now loaded")
+    print(f"Essentials cog is now loaded" +"\n")
     logger = logging.getLogger("disnake")
-    logger.info("Added Ban Cog")
+    logger.info("Added Essential Cog")
 
 def teardown(bot: commands.Bot):
     bot.remove_cog("Essential")
-    print("Essentials cog is now unloaded")
+    print(f"Essentials cog is now unloaded" +"\n")
     logger = logging.getLogger("disnake")
-    logger.info("Removed Ban Cog")    
+    logger.info("Removed Essential Cog")

@@ -9,13 +9,13 @@ from inc.core import *
     
 def setup(bot: commands.Bot):
     bot.add_cog(Ban(bot))
-    print("Ban cog is now loaded.")
+    print(f"Ban cog is now loaded." +"\n")
     logger = logging.getLogger("disnake")
     logger.info("Added Ban Cog.")
 
 
 def teardown(bot: commands.Bot):
     bot.remove_cog("Ban")
-    print("Ban cog is now unloaded.")
+    print(f"Ban cog is now unloaded." +"\n")
     logger = logging.getLogger("disnake")
     logger.info("Removed Ban Cog.")    
