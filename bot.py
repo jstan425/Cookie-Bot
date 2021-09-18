@@ -15,9 +15,10 @@ if os.name != "nt":
 load_dotenv()
 intents = disnake.Intents.all()
 bot = commands.Bot(
-    command_prefix="ck.", intents=intents, test_guilds=[872470314171392001]
-)
-
+    command_prefix="ck.", 
+    intents = intents, 
+    test_guilds = load_dotenv(os.getenv("GuildID"))
+    )
 
 @bot.event
 async def on_ready():
@@ -27,12 +28,12 @@ async def on_ready():
     print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
     print("----------------------------------")
 
+if not os.path.exists("logs"):
+    os.makedirs("logs")
 
 logger = logging.getLogger("disnake")
 logger.setLevel(logging.INFO)
 log_dir = "logs"
-if not os.path.exists("logs"):
-    os.makedirs("logs")
 handler = TimedRotatingFileHandler(
     os.path.join(log_dir, "cookiebot.log"), "midnight", interval=1
 )
