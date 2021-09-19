@@ -17,7 +17,7 @@ intents = disnake.Intents.all()
 bot = commands.Bot(
     command_prefix="ck.", 
     intents = intents, 
-    test_guilds = load_dotenv(os.getenv("GuildID"))
+    test_guilds = [872470314171392001]
     )
 
 @bot.event
