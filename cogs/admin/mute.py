@@ -4,6 +4,8 @@ from disnake import embeds, Option, OptionType
 from disnake.ext import commands
 from datetime import datetime
 
+from disnake.ext.commands import bot
+
 
 class Mute(commands.Cog):
     def __init__(self, bot):
@@ -19,39 +21,38 @@ class Mute(commands.Cog):
 )
 @commands.has_permissions(manage_messages=True)
 async def tempmute(ctx, user: disnake.user = None, time=int, d=str, *, reason=None):
-    guild = ctx.guild
-
-    for role in guild.roles:
-        #if role.name == "Muted":
-        if role.id == 889864145040736266:
-            await user.add_roles(role)
-
-            embed = disnake.Embed(
-                title="Muted!",
-                description=f"{user.mention} has been tempmuted",
-                colour=disnake.Colour.light_gray(),
+    role = disnake.utils.get(bot.get_guild(ctx.guild.id).roles, id ="889864145040736266")
+    await user.add_roles(role)
+    
+    embed = disnake.Embed(
+        title="Muted!",
+        description=f"{user.mention} has been tempmuted",
+        colour=disnake.Colour.light_gray(),
+        )
+    embed.add_field(name="reason:", 
+                    value=reason, 
+                    inline=False
             )
-            embed.add_field(name="reason:", value=reason, inline=False)
-            embed.add_field(
-                name="Time left for the mute:", value=f"{time}{d}", inline=False
+    embed.add_field(name="Time left for the mute:", 
+                    value=f"{time}{d}", 
+                    inline=False
             )
-            await ctx.send(embed=embed)
+    await ctx.send(embed=embed)
 
-        if d == "d":
+    if d == "d":
             seconds = time * 86400
-        elif d == "h":
+    elif d == "h":
             seconds = time * 60 * 60
-        elif d == "m":
+    elif d == "m":
             seconds = time * 60
-        elif d == "s":
+    elif d == "s":
             seconds = time * 1
-        await user.remove_roles(role)
+    await user.remove_roles(role)
 
-        embed = disnake.Embed(
+    embed = disnake.Embed(
             title="Temp Unmute",
             description=f"Unmuted - {user.mention}",
             colour=disnake.colour.light_gray(),
-        )
-        await ctx.send(embed=embed)
-
-        return
+    )
+    await ctx.send(embed=embed)
+    return
