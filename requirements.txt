@@ -4,7 +4,7 @@ attrs==21.2.0
 autopep8==1.5.7
 black==21.9b0
 certifi==2021.5.30
-chardet==4.0.0
+chardet<4.0.0
 charset-normalizer==2.0.4
 click==8.0.1
 colorama==0.4.4

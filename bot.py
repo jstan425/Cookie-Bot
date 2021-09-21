@@ -32,7 +32,7 @@ if not os.path.exists("logs"):
     os.makedirs("logs")
 
 logger = logging.getLogger("disnake")
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 log_dir = "logs"
 handler = TimedRotatingFileHandler(
     os.path.join(log_dir, "cookiebot.log"), "midnight", interval=1
@@ -43,7 +43,7 @@ handler.setFormatter(
 )
 logger.addHandler(handler)
 
-print(f"Cogs Loaded" + "\n")
+print("Cogs Loaded" + "\n")
 for folder in os.listdir("cogs"):
     if os.path.exists(os.path.join("cogs", folder, "cog.py")):
         bot.load_extension(f"cogs.{folder}.cog")
