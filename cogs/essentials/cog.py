@@ -19,16 +19,16 @@ class Essential(commands.Cog):
             if os.path.exists(os.path.join("cogs", folder, "cog.py")):
                 self.bot.unload_extension(f"cogs.{folder}.cog")
                 self.bot.load_extension(f"cogs.{folder}.cog")
-        await ctx.response.send_message(f"Cogs fully reloaded.")
+        await ctx.response.send_message('Cogs fully reloaded.')
         
 def setup(bot: commands.Bot):
     bot.add_cog(Essential(bot))
-    print(f"Essentials cog is now loaded" +"\n")
+    print('Essentials cog is now loaded' + "\n")
     logger = logging.getLogger("disnake")
     logger.info("Added Essential Cog")
 
 def teardown(bot: commands.Bot):
     bot.remove_cog("Essential")
-    print(f"Essentials cog is now unloaded" +"\n")
+    print('Essentials cog is now unloaded' + "\n")
     logger = logging.getLogger("disnake")
     logger.info("Removed Essential Cog")
