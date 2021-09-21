@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "bot.py",
             "args": [
-                "-00"
+                "-OO"
             ],
             "console": "integratedTerminal"
         }
