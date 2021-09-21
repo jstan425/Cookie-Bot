@@ -1,6 +1,6 @@
 import disnake, asyncio, datetime
 
-from disnake import embeds
+from disnake import embeds, Option, OptionType
 from disnake.ext import commands
 from datetime import datetime
 
@@ -11,25 +11,25 @@ class Mute(commands.Cog):
 
 
 # Timed mute this format: 1d, 20s, 30m, etc..
-@commands.bot.slash_command(description="Mute specified user.")
-@commands.has_permission(manage_messages=True)
-async def tempmute(ctx, user: disnake.user, time=int, d=str, *, reason=None):
-    if not user:
-        await ctx.send("You must mention a member to mute!")
-    elif not time:
-        await ctx.send("You must mention a time!")
-    elif not reason:
-        reason = "No reason given"
+@commands.bot.slash_command(
+    description="Mute specified user.",
+    options=[
+        Option("user", "Specify user would like to mute.", OptionType.user, True), Option("time", "Specify duration.", OptionType.string, True), Option("reason", "Reason being punish", OptionType.string, False)
+    ],
+)
+@commands.has_permissions(manage_messages=True)
+async def tempmute(ctx, user: disnake.user = None, time=int, d=str, *, reason=None):
     guild = ctx.guild
 
     for role in guild.roles:
-        if role.name == "Muted":
+        #if role.name == "Muted":
+        if role.id == 889864145040736266:
             await user.add_roles(role)
 
             embed = disnake.Embed(
                 title="Muted!",
                 description=f"{user.mention} has been tempmuted",
-                olour=disnake.Colour.light_gray(),
+                colour=disnake.Colour.light_gray(),
             )
             embed.add_field(name="reason:", value=reason, inline=False)
             embed.add_field(
@@ -37,15 +37,14 @@ async def tempmute(ctx, user: disnake.user, time=int, d=str, *, reason=None):
             )
             await ctx.send(embed=embed)
 
-        if d == "s":
-            seconds = time * 1
-        elif d == "m":
-            seconds = time * 60
+        if d == "d":
+            seconds = time * 86400
         elif d == "h":
             seconds = time * 60 * 60
-        elif d == "d":
-            seconds = time * 86400
-
+        elif d == "m":
+            seconds = time * 60
+        elif d == "s":
+            seconds = time * 1
         await user.remove_roles(role)
 
         embed = disnake.Embed(
