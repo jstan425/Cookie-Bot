@@ -4,8 +4,6 @@ from disnake import embeds, Option, OptionType
 from disnake.ext import commands
 from datetime import datetime
 
-from disnake.ext.commands import bot
-
 
 class Mute(commands.Cog):
     def __init__(self, bot):
@@ -21,13 +19,11 @@ class Mute(commands.Cog):
 )
 @commands.has_permissions(manage_messages=True)
 async def tempmute(ctx, user: disnake.user = None, time=int, d=str, *, reason=None):
-    role = disnake.utils.get(bot.get_guild(ctx.guild.id).roles, id ="889864145040736266")
-    await user.add_roles(role)
-    
+    role = disnake.utils.get(ctx.guild.roles, id=889864145040736266)
     embed = disnake.Embed(
         title="Muted!",
         description=f"{user.mention} has been tempmuted",
-        colour=disnake.Colour.light_gray(),
+        colour=disnake.Colour.light_grey(),
         )
     embed.add_field(name="reason:", 
                     value=reason, 
@@ -37,7 +33,6 @@ async def tempmute(ctx, user: disnake.user = None, time=int, d=str, *, reason=No
                     value=f"{time}{d}", 
                     inline=False
             )
-    await ctx.send(embed=embed)
 
     if d == "d":
             seconds = time * 86400
@@ -52,7 +47,8 @@ async def tempmute(ctx, user: disnake.user = None, time=int, d=str, *, reason=No
     embed = disnake.Embed(
             title="Temp Unmute",
             description=f"Unmuted - {user.mention}",
-            colour=disnake.colour.light_gray(),
+            colour=disnake.Colour.light_grey(),
     )
     await ctx.send(embed=embed)
+    await user.add_roles(role)
     return
