@@ -18,37 +18,16 @@ class Mute(commands.Cog):
     ],
 )
 @commands.has_permissions(manage_messages=True)
-async def tempmute(ctx, user: disnake.user = None, time=int, d=str, *, reason=None):
-    role = disnake.utils.get(ctx.guild.roles, id=889864145040736266)
-    embed = disnake.Embed(
-        title="Muted!",
-        description=f"{user.mention} has been tempmuted",
-        colour=disnake.Colour.light_grey(),
-        )
-    embed.add_field(name="reason:", 
-                    value=reason, 
-                    inline=False
-            )
-    embed.add_field(name="Time left for the mute:", 
-                    value=f"{time}{d}", 
-                    inline=False
-            )
-
-    if d == "d":
-            seconds = time * 86400
-    elif d == "h":
-            seconds = time * 60 * 60
-    elif d == "m":
-            seconds = time * 60
-    elif d == "s":
-            seconds = time * 1
+async def tempmute(ctx, user: disnake.user = None, time=str, *, reason=None):
+    role = disnake.utils.get(ctx.guild.roles, name="Muted")
+    time_convert = {"s":1, "m":60, "h":3600,"d":86400}
+    mute_time = int(time[0]) * time_convert[time[-1]]
+    await user.add_roles(role)
+    embed = disnake.Embed(description= f"✅ **{user.display_name}#{user.discriminator} muted successfuly**", 
+                          color=disnake.Color.green()
+                          )
+    await ctx.send(embed=embed, delete_after=5)
+    await asyncio.sleep(mute_time)
     await user.remove_roles(role)
 
-    embed = disnake.Embed(
-            title="Temp Unmute",
-            description=f"Unmuted - {user.mention}",
-            colour=disnake.Colour.light_grey(),
-    )
-    await ctx.send(embed=embed)
-    await user.add_roles(role)
     return
