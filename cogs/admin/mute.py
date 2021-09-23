@@ -14,19 +14,23 @@ class Mute(commands.Cog):
 @commands.bot.slash_command(
     description="Mute specified user.",
     options=[
-        Option("user", "Specify user would like to mute.", OptionType.user, True), Option("time", "Specify duration.", OptionType.string, True), Option("reason", "Reason being punish", OptionType.string, False)
+        Option("user", "Specify user would like to mute.", OptionType.user, True),
+        Option("time", "Specify duration.", OptionType.string, True),
+        Option("reason", "Reason being punish", OptionType.string, False),
     ],
 )
 @commands.has_permissions(manage_messages=True)
 async def tempmute(ctx, user: disnake.user = None, time=str, *, reason=None):
     role = disnake.utils.get(ctx.guild.roles, name="Muted")
-    time_convert = {"s":1, "m":60, "h":3600,"d":86400}
+    time_convert = {"s": 1, "m": 60, "h": 3600, "d": 86400}
     mute_time = int(time[0]) * time_convert[time[-1]]
     await user.add_roles(role)
-    embed = disnake.Embed(description= f"✅ **{user.display_name}#{user.discriminator} muted successfuly**", 
-                          color=disnake.Color.green()
-                          )
-    await ctx.send(embed=embed, delete_after=5)
+    embed = disnake.Embed(
+        description=f"✅ **{user.display_name}#{user.discriminator} muted successfuly**",
+        color=disnake.Color.green(),
+    )
+    # TODO: change send embed method.
+    await ctx.channel.send(embed=embed)  # delete_after=10
     await asyncio.sleep(mute_time)
     await user.remove_roles(role)
 
