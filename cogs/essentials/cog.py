@@ -1,8 +1,8 @@
 import disnake
 import logging
+import os
 
 from disnake.ext import commands
-from inc.core import *
 
 
 class Essential(commands.Cog):

@@ -10,12 +10,12 @@ class Ban(commands.Cog):
 
     @commands.bot.slash_command(description="Ban user from the Server.")
     async def ban(self, ctx, user : disnake.user,*,reason: None):
-        await ctx.send(user.name + "have been ban for" + reason)
+        await ctx.response.send_message(user.name + "have been ban for" + reason)
         await disnake.guild.ban(reason)
     
     @commands.bot.slash_command(description="Unban user from the Server.")
     async def unban(self, ctx, user : disnake.user):
-        await ctx.send(user.name + "have been unban!")
+        await ctx.response.send_message(user.name + "have been unban!")
         await disnake.guild.unban(user)
     
     #Tempban a user for certain durations and unban when it duration ends    

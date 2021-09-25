@@ -4,7 +4,6 @@ from disnake.ext import commands
 from .ban import Ban
 from .kick import Kick
 from .mute import Mute
-from inc.core import *
 
 
     
@@ -23,4 +22,4 @@ def teardown(bot: commands.Bot):
     bot.remove_cog("Mute")
     print('Admin cog is now unloaded.' + "\n")
     logger = logging.getLogger("disnake")
-    logger.info("Removed Admin Cog.")    
+    logger.info("Removed Admin Cog.")
