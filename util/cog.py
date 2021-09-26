@@ -2,11 +2,11 @@ import disnake
 import logging
 
 from disnake.ext import commands
-from .embedg import EmbedG
+from .embedg import *
 
 
 def setup(bot: commands.Bot):
-    bot.add_cog(EmbedG(bot))
+    bot.add_cog(banEmbed(bot))
 
     print('Util cog is now loaded.' + "\n")
     logger = logging.getLogger("disnake")
@@ -14,7 +14,7 @@ def setup(bot: commands.Bot):
 
 
 def teardown(bot: commands.Bot):
-    bot.remove_cog("EmbedG")
+    bot.remove_cog("banEmbed")
 
     print('Util cog is now unloaded.' + "\n")
     logger = logging.getLogger("disnake")
