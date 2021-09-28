@@ -12,7 +12,7 @@
             "args": [
                 "-OO"
             ],
-            "console": "externalTerminal"
+            "console": "integratedTerminal"
         }
     ]
 }
