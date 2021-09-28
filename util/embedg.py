@@ -4,7 +4,6 @@ import datetime
 
 from disnake.ext import commands
 from disnake.ext.commands.bot import Bot
-from disnake.ext.commands.core import command
 from dotenv import load_dotenv
 
 
