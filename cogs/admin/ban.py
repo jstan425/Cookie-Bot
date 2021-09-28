@@ -26,7 +26,7 @@ async def ban(ctx, user: disnake.user, *, reason: None):
         color=disnake.Color.red(),
     )
     await ctx.channel.send(embed=embed)
-    await user.ban(reason)
+    await user.ban(user, reason=reason)
 
 
 @commands.bot.slash_command(
@@ -60,6 +60,6 @@ async def tempban(ctx, user: disnake.member = None, time=str, *, reason=None):
         color=disnake.Color.green(),
     )
     await ctx.channel.send(embed=embed)
-    await user.ban(reason)
+    await user.ban(user, reason=reason)
     await asyncio.sleep(ban_time)
     await user.unban(user)
