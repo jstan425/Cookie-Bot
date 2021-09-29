@@ -16,7 +16,10 @@ if os.name != "nt":
 load_dotenv()
 intents = disnake.Intents.all()
 bot = commands.Bot(
-    command_prefix="ck.", intents=intents, test_guilds=[872470314171392001]
+    command_prefix="ck.",
+    intents=intents,
+    test_guilds=[872470314171392001],
+    sync_commands_debug=True,
 )
 
 
@@ -60,3 +63,4 @@ for folder in os.listdir("cogs"):
 
 logger.info("Starting Bot")
 bot.run(os.getenv("TOKEN"))
+logger.info("------ BOT STARTED -------")

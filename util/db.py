@@ -32,6 +32,7 @@ def create_table(conn, create_table_sql):
 
 
 def setup_tables(conn):
+    # TODO id should auto incriment
     create_temp_ban_table = """ CREATE TABLE IF NOT EXISTS temp_ban (
                                         id integer PRIMARY KEY,
                                         guild_id integer NOT NULL,
