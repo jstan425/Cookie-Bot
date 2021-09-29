@@ -6,6 +6,7 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 from disnake.ext import commands
 from dotenv import load_dotenv
+from util.db import create_connection, setup_tables
 
 if os.name != "nt":
     import uvloop
@@ -28,20 +29,29 @@ async def on_ready():
     print("----------------------------------")
 
 
-if not os.path.exists("logs"):
-    os.makedirs("logs")
+def setup_logging():
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
 
-logger = logging.getLogger("disnake")
-logger.setLevel(logging.INFO)
-log_dir = "logs"
-handler = TimedRotatingFileHandler(
-    os.path.join(log_dir, "cookiebot.log"), "midnight", interval=1
-)
-handler.suffix = "%Y-%m-%d_%H-%M-%S"
-handler.setFormatter(
-    logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
-)
-logger.addHandler(handler)
+    logger = logging.getLogger("disnake")
+    logger.setLevel(logging.INFO)
+    log_dir = "logs"
+    handler = TimedRotatingFileHandler(
+        os.path.join(log_dir, "cookiebot.log"), "midnight", interval=1
+    )
+    handler.suffix = "%Y-%m-%d_%H-%M-%S"
+    handler.setFormatter(
+        logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
+    )
+    logger.addHandler(handler)
+    return logger
+
+
+logger = setup_logging()
+
+if not os.path.isfile(r"sqlite.db"):
+    conn = create_connection(r"sqlite.db")
+    setup_tables(conn)
 
 print("Cogs Loaded" + "\n")
 for folder in os.listdir("cogs"):
