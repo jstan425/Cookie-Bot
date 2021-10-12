@@ -1,12 +1,14 @@
-import disnake
+import logging
 import os
 import platform
-import logging
-
 from logging.handlers import TimedRotatingFileHandler
+
+import disnake
 from disnake.ext import commands
 from dotenv import load_dotenv
-from util.db import create_connection, setup_tables
+
+from util.db import create_connection
+from util.db import setup_tables
 
 if os.name != "nt":
     import uvloop
@@ -56,11 +58,12 @@ if not os.path.isfile(r"sqlite.db"):
     conn = create_connection(r"sqlite.db")
     setup_tables(conn)
 
-print("Cogs Loaded" + "\n")
+print("Cogs Loading..." + "\n")
 for folder in os.listdir("cogs"):
     if os.path.exists(os.path.join("cogs", folder, "cog.py")):
         bot.load_extension(f"cogs.{folder}.cog")
 
+print("Cogs Loaded" + "\n")
 logger.info("Starting Bot")
 bot.run(os.getenv("TOKEN"))
 logger.info("------ BOT STARTED -------")
