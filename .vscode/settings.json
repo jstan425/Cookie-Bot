@@ -2,14 +2,15 @@
     "python.formatting.provider": "black",
     "editor.formatOnSave": true,
     "files.exclude": {
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
+        "**/__pycache__": true,
         "**/.DS_Store": true,
-        "**/Thumbs.db": true,
+        "**/.git": false,
+        "**/.hg": true,
+        "**/.svn": true,
         "**/*.pyc": {
             "when": "$(basename).py"
         },
-        "**/__pycache__": true
+        "**/CVS": true,
+        "**/Thumbs.db": true
     }
 }
