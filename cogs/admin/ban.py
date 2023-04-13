@@ -1,11 +1,21 @@
 import disnake, asyncio, datetime
+import re
+import pytz
 
 from disnake.ext import commands, tasks
 from disnake.ext.commands import Param
 from datetime import datetime, timedelta
 from util.db import *
 
+time_pattern = re.compile(r'^(\d+)([smhd])$')
 
+match = time_pattern.match(time)
+if not match:
+    await inter.channel.send("Provide the correct time format.")
+else:
+    amount, unit = match.groups()
+    ban_time = int(amount) * time_convert[unit]
+    
 class Ban(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -18,6 +28,10 @@ class Ban(commands.Cog):
         user: disnake.User = Param(None, desc="Specify a user"),
         reason=Param(None, desc="Provide a reason"),
     ):
+        if user is None:
+            await inter.channel.send("Specify a user to ban.")
+            return
+            
         embed = disnake.Embed(
             description=(
                 f"✅ **{user.display_name}#{user.discriminator} is banned for {reason}"
@@ -34,6 +48,10 @@ class Ban(commands.Cog):
         user: disnake.User = Param(None, desc="Specify a user"),
         reason: str = Param(None, desc="Provide a reason"),
     ):
+        if user is None:
+            await inter.channel.send("Specify a user to ban.")
+            return
+
         embed = disnake.Embed(
             description=(
                 f"✅ **{user.display_name}#{user.discriminator} had been unbanned"
@@ -58,7 +76,15 @@ class Ban(commands.Cog):
             description=(
                 f"✅ **{user.display_name}#{user.discriminator} had been tempban for {time} successfully**"
             ),
-            color=disnake.Color.green(),
+            color=disnake.Color.green()
+        member = inter.guild.get_member(user.id)
+        if not member:
+            await inter.channel.send("Specift a user to tempban")
+        else:
+            await user.ban(reason=reason)
+        await inter.response.send_message(embed=embed)
+        await asyncio.sleep(ban_time)
+        await user.unban(user)
         )
 
         conn = create_connection(r"sqlite.db")
@@ -66,10 +92,7 @@ class Ban(commands.Cog):
         cur = conn.cursor()
         cur.execute(sql)
         conn.commit()
-        await user.ban(reason=reason)
-        await inter.response.send_message(embed=embed)
-        # await asyncio.sleep(ban_time)
-        # await user.unban(user)
+        
 
     # TODO change this to how often you want this to run, i'd suggest every minute
     @tasks.loop(minutes=1.0)
