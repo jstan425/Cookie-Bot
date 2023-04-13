@@ -13,6 +13,7 @@ def setup(bot: commands.Bot):
     bot.add_cog(Kick(bot))
     bot.add_cog(Mute(bot))
     bot.add_cog(Purge(bot))
+
     print("Admin cog is now loaded." + "\n")
     logger = logging.getLogger("disnake")
     logger.info("Added Admin Cog.")
@@ -23,6 +24,7 @@ def teardown(bot: commands.Bot):
     bot.remove_cog("Kick")
     bot.remove_cog("Mute")
     bot.remove_cog("Purge")
+    
     print("Admin cog is now unloaded." + "\n")
     logger = logging.getLogger("disnake")
     logger.info("Removed Admin Cog.")
