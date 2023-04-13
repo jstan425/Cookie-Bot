@@ -1,6 +1,6 @@
 import sqlite3
-from sqlite3 import Error
 
+from sqlite3 import Error
 
 def create_connection(db_file):
     """create a database connection to the SQLite database
@@ -11,32 +11,51 @@ def create_connection(db_file):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
-        return conn
-    except Error as e:
+    except sqlite3.Error as e:
         print(e)
-
+        raise(e)
     return conn
 
-
-def create_table(conn, create_table_sql):
-    """create a table from the create_table_sql statement
+def create_table(conn, table_name, columns):
+    """Create a table with the given name and columns
     :param conn: Connection object
-    :param create_table_sql: a CREATE TABLE statement
-    :return:
+    :param table_name: a CREATE TABLE statement
+    :param columns: List of column names and types, eg. ["id INTEGER", 'name TEXT"]
+    :return: True if the table was create successfully, False otherwise
     """
+    # Validate input
+    if not table_name.isidentifier():
+        raise ValueError("Invalid table name")
+    for column in columns:
+        if not isinstance(column, str):
+            raise TypeError("Columns must be strings")
+        if not column.isidentifier():
+            raise ValueError("Invalid column name")
+    
+    # Sanitize input
+    table_name = sqlite3.escape_identifier(table_name)
+    columns = [sqlite3.escape_identifier(column) for column in columns]
+
+    # Create SQL statement
+    sql = f"CREATE TABLE {table_name} ({', '.join(columns)})"
+
+    # Execute SQL Statement
     try:
         c = conn.cursor()
-        c.execute(create_table_sql)
-    except Error as e:
+        c.execute(sql)
+        return True
+    except sqlite3.Error as e:
         print(e)
-
+        raise e
 
 def setup_tables(conn):
-    # TODO id should auto incriment
-    create_temp_ban_table = """ CREATE TABLE IF NOT EXISTS temp_ban (
-                                        id integer PRIMARY KEY,
-                                        guild_id integer NOT NULL,
-                                        user_id integer NOT NULL,
-                                        end_time integer NOT NULL
-                                    ); """
-    create_table(conn, create_temp_ban_table)
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS tempban (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        user_id INTEGER NOT NULL,
+                        reason TEXT NOT NULL,
+                        start_time DATETIME NOT NULL,
+                        end_time DATETIME NOT NULL
+                    )''')
+    conn.commit()
+    cursor.close()
