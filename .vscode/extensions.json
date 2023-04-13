@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "rubberduck.rubberduck-vscode",
+        "usernamehw.errorlens",
+        "github.vscode-pull-request-github",
+        "oderwat.indent-rainbow",
+        "gitpod.gitpod-remote-ssh"
+    ]
+}
