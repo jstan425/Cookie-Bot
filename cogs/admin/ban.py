@@ -69,22 +69,24 @@ class Ban(commands.Cog):
         time: str = Param(None, desc="Specify a time"),
         reason: str = Param(None, desc="Provide a reason"),
     ):
-        time_convert = {"s": 1, "m": 60, "h": 3600, "d": 86400}
-        ban_time = int(time[0]) * time_convert[time[-1]]
-        end_time = datetime.now() + timedelta(seconds=ban_time)
-        embed = disnake.Embed(
-            description=(
-                f"✅ **{user.display_name}#{user.discriminator} had been tempban for {time} successfully**"
-            ),
-            color=disnake.Color.green()
         member = inter.guild.get_member(user.id)
         if not member:
             await inter.channel.send("Specift a user to tempban")
         else:
-            await user.ban(reason=reason)
-        await inter.response.send_message(embed=embed)
-        await asyncio.sleep(ban_time)
-        await user.unban(user)
+            time_convert = {"s": 1, "m": 60, "h": 3600, "d": 86400}
+            ban_time = int(time[0]) * time_convert[time[-1]]
+            end_time = datetime.now() + timedelta(seconds=ban_time)
+            embed = disnake.Embed(
+                description=(
+                    f"✅ **{user.display_name}#{user.discriminator} had been tempban for {time} successfully**"
+                ),
+                color=disnake.Color.green()
+                
+            # TODO fixed syntax logic
+            # await user.ban(reason=reason)
+            # await inter.response.send_message(embed=embed)
+            # await asyncio.sleep(ban_time)
+            # await user.unban(user)
         )
 
         conn = create_connection(r"sqlite.db")
