@@ -4,9 +4,11 @@
 
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
+# Commands that will run on workspace start
 tasks:
-  - init: python -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt
+  - name: Setup, Install, & Run
+    before: python -m venv venv
+    init: source venv/bin/activate
+    command: pip install -r requirements.txt
 
 
