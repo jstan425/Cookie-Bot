@@ -80,14 +80,12 @@ class Ban(commands.Cog):
                 description=(
                     f"✅ **{user.display_name}#{user.discriminator} had been tempban for {time} successfully**"
                 ),
-                color=disnake.Color.green()
-                
-            # TODO fixed syntax logic
-            # await user.ban(reason=reason)
-            # await inter.response.send_message(embed=embed)
+                color=disnake.Color.green(),
+            )
+            await user.ban(reason=reason)
+            await inter.response.send_message(embed=embed)
             # await asyncio.sleep(ban_time)
             # await user.unban(user)
-        )
 
         conn = create_connection(r"sqlite.db")
         sql = f" INSERT INTO temp_ban(guild_id,user_id,end_time) VALUES({inter.guild.id},{user.id},{end_time.timestamp()}) "
