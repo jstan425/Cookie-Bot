@@ -1,11 +1,12 @@
 import disnake
+from disnake.ext import commands, tasks
+from disnake.ext.commands import Param
+
 import asyncio
 import datetime
 import re
 import pytz
-
-from disnake.ext import commands, tasks
-from disnake.ext.commands import Param
+from utils.embed import *
 
 class ban(commands.Cog):
         def __init__(self, bot: commands.Bot):
@@ -72,8 +73,9 @@ class ban(commands.Cog):
                 ),
                 color = disnake.Color.red(),
         )   
-        await inter.send(user.name + "have been kicked!"),
-        await disnake.guild.kick(reason = reason)
+        # await inter.send(user.name + "have been kicked!"),
+        await inter.channel.send(embed=embed)
+        await disnake.guild.kick(reason=reason)
     
     class mute(commands.Cog):
     def __init__(self, bot):
@@ -81,11 +83,11 @@ class ban(commands.Cog):
 
     # Timed mute this format: 1d, 20s, 30m, etc..
     @commands.slash_command(description="Mute specified user.")
-    async def tempmute(
+    async def mute(
         self,
         inter: disnake.ApplicationCommandInteraction,
         user: disnake.User = Param(None, desc="Specify a user"),
-        time: str = Param(None, desc="Specify a time"),
+        time: int = Param(None, desc="Specify a time."),
         reason: str = Param(None, desc="Provide a reason"),
     ):
         role = disnake.utils.get(inter.guild.roles, name="Muted")
@@ -100,3 +102,24 @@ class ban(commands.Cog):
         await inter.channel.send(embed=embed)
         await asyncio.sleep(mute_time)
         await user.remove_roles(role)
+    
+    class timeout(commands.Cog):
+    def __init__(self, bot):
+        self.bot=bot
+
+    @commands.slash_command(description="Timeout specified user.")
+    async def timeout(
+        self,
+        inter: disnake.ApplicationCommandInteraction,
+        user: disnake.User = Param(None, desc="Specify a user"),
+        time: str = Param(choices={"60s": "60", "5m": "300s", "10m": "600s", "1h": "3600s", "24h": "86400s", "1w": "604800s"}),
+        reason: str=Param(None, desc="Provide a reason."),
+    ):
+        time_convert = {"s": 1, "m": 60, "h": 3600, "d": 86400}
+        timeout_time=int(time[0]) * time_convert[time[-1]]
+        embed=disnake.Embed(
+            color=disnake.Color.green(),
+        )
+
+        await inter.channel.send(embed=embed)
+        await user.timeout(duration=timeout_time, reason=reason)
