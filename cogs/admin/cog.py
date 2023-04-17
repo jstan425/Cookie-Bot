@@ -2,17 +2,14 @@ import logging
 
 from disnake.ext import commands
 
-from .ban import Ban
-from .kick import Kick
-from .mute import Mute
-from .purge import Purge
+from .moderation import ban, kick, mute
 
 
 def setup(bot: commands.Bot):
-    bot.add_cog(Ban(bot))
-    bot.add_cog(Kick(bot))
-    bot.add_cog(Mute(bot))
-    bot.add_cog(Purge(bot))
+    bot.add_cog(ban(bot))
+    bot.add_cog(kick(bot))
+    bot.add_cog(mute(bot))
+    bot.add_cog(purge(bot))
 
     print("Admin cog is now loaded." + "\n")
     logger = logging.getLogger("disnake")
@@ -20,10 +17,10 @@ def setup(bot: commands.Bot):
 
 
 def teardown(bot: commands.Bot):
-    bot.remove_cog("Ban")
-    bot.remove_cog("Kick")
-    bot.remove_cog("Mute")
-    bot.remove_cog("Purge")
+    bot.remove_cog("ban")
+    bot.remove_cog("kick")
+    bot.remove_cog("mute")
+    bot.remove_cog("purge")
     
     print("Admin cog is now unloaded." + "\n")
     logger = logging.getLogger("disnake")
